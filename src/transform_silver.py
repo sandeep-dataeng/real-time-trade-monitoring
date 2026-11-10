@@ -33,6 +33,7 @@ def parse_and_split(bronze_df):
         & (F.col("price") >= 0)
         & F.col("event_time").isNotNull()
     )
-    valid = parsed.filter(valid_condition)
-    invalid = parsed.filter(~valid_condition | F.col("trade_id").isNull())
+    is_valid = F.coalesce(valid_condition, F.lit(False))
+    valid = parsed.filter(is_valid)
+    invalid = parsed.filter(~is_valid)
     return valid, invalid
