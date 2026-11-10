@@ -1,0 +1,4 @@
+{"trade_id":"T1001","symbol":"MSFT","side":"BUY","quantity":100,"price":412.5,"event_time":"2026-11-10T09:30:01Z","source":"simulator"}
+{"trade_id":"T1002","symbol":"AAPL","side":"SELL","quantity":50,"price":221.2,"event_time":"2026-11-10T09:30:03Z","source":"simulator"}
+{"trade_id":"T1003","symbol":"MSFT","side":"BUY","quantity":25,"price":413.1,"event_time":"2026-11-10T09:30:06Z","source":"simulator"}
+{"trade_id":"T1004","symbol":"NVDA","side":"BUY","quantity":10,"price":189.7,"event_time":"2026-11-10T09:30:09Z","source":"simulator"}
