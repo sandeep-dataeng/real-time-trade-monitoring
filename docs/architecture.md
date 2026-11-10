@@ -1,24 +1,23 @@
 # Architecture and engineering notes
 
 ## Data flow
-1. Event producer publishes JSON trade events to Azure Event Hubs.
+1. A producer publishes JSON trade events to Azure Event Hubs.
 2. Databricks Structured Streaming reads the event stream.
-3. Bronze persists raw payload and Event Hubs metadata in Delta.
-4. Silver parses the event contract, applies data-quality rules and deduplicates according to a defined business key.
-5. Gold computes event-time aggregates, such as trade count and notional by symbol and five-minute window.
+3. Bronze persists raw payloads and Event Hubs metadata in Delta on ADLS Gen2.
+4. Silver parses the contract, validates fields, and deduplicates using a documented business key.
+5. Gold computes event-time aggregates such as trade count and notional by symbol and five-minute window.
 
-## Reliability considerations
+## Reliability
 - Use a stable checkpoint path per streaming query.
-- Define event-time semantics and watermark duration from observed lateness and business SLAs.
-- Specify deduplication keys and replay behavior.
-- Quarantine invalid payloads with a reason rather than silently dropping them.
-- Test restart/replay behavior before claiming exactly-once outcomes across the full pipeline.
+- Define event-time semantics and watermark duration from business SLAs and observed lateness.
+- Quarantine invalid payloads with a reason.
+- Test restart/replay behavior before claiming end-to-end exactly-once processing.
 
 ## Security
-Use managed identity where supported or Databricks secret scopes for credentials. Apply least-privilege access to Event Hubs and ADLS. Keep secrets out of notebooks, logs and Git.
+Use managed identity where supported or secret scopes. Apply least-privilege access to Event Hubs and ADLS. Never store secrets in source control.
 
 ## Operational metrics
-Track input rows/sec, processed rows/sec, micro-batch duration, processing latency, state-store size, failed records and checkpoint progress.
+Track input/processed rows per second, micro-batch duration, processing latency, state-store size, failed records and checkpoint progress.
 
 ## Decisions to validate
-Event Hubs connector/runtime compatibility, partition count, storage layout, watermark duration, checkpoint retention, DLT versus standard streaming, and alert thresholds.
+Connector/runtime compatibility, Event Hubs partition count, storage layout, watermark duration, checkpoint retention, DLT versus standard streaming, and alert thresholds.
