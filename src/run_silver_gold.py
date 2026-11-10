@@ -4,7 +4,9 @@ Run after the Bronze stream is writing Delta files. Paths are configured through
 environment variables so no storage account details are hard-coded.
 """
 import os
-from pyspark.sql import functions as F
+from pyspark.sql import SparkSession, functions as F
+
+spark = SparkSession.builder.appName("trade-silver-gold").getOrCreate()
 from src.transform_silver import parse_and_split
 from src.aggregate_gold import build_trade_volume
 
