@@ -15,7 +15,7 @@ TRADE_SCHEMA = StructType([
 ])
 
 def parse_and_split(bronze_df):
-    """Return (valid, invalid) DataFrames; caller decides where to persist them."""
+    """Return valid and invalid DataFrames; caller chooses persistence targets."""
     parsed = (
         bronze_df
         .withColumn("event", F.from_json("raw_body", TRADE_SCHEMA))
