@@ -39,6 +39,16 @@ Set `EVENTHUBS_CONNECTION_STRING`, `EVENTHUB_NAME`, `BRONZE_PATH`, and `CHECKPOI
 5. Validate duplicate, malformed and late-arriving events.
 6. Add monitoring, alerts and measured throughput/latency results.
 
+## Run locally without an Azure subscription
+
+A local simulation path is included:
+- `local_simulator/generate_events.py` creates synthetic JSON event files.
+- `src/local_file_stream.py` ingests new files with Spark Structured Streaming into local Bronze Delta.
+- `src/local_silver_gold.py` validates and separates Silver/quarantine data, then creates Gold window aggregates.
+- `docs/local_setup.md` contains the Windows setup and run instructions.
+
+This local file-stream implementation is a substitute for the event broker during development. It does not emulate every Event Hubs feature and is not a live Azure deployment.
+
 ## Current implementation status
 This repository contains project documentation, synthetic sample events, a schema contract, and starter PySpark code. **Live Azure deployment, end-to-end execution, DLT deployment, checkpoint recovery and performance testing have not yet been verified.** Treat these as implementation/validation tasks, not completed achievements.
 
